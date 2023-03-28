@@ -1,0 +1,3 @@
+fmt.Scan() считывает строку до первого пробела, вы можете считать полностью строку за раз с помощью bufio:
+
+text, _ := bufio.NewReader(os.Stdin).ReadString('\n')

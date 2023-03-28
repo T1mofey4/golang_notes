@@ -1,0 +1,101 @@
+Три способа сортировки в Golang
+Сортировать срезов int, float64 или string
+Используйте одну из функций
+
+sort.Ints
+sort.Float64s
+sort.Strings
+
+s := []int{4, 2, 3, 1}
+sort.Ints(s)
+fmt.Println(s) // [1 2 3 4]
+Сортировать с помощью пользовательского компаратора
+Используйте функцию sort.Slice. Она сортирует срез, используя предоставленную функцию less(i, j int) bool.
+
+Чтобы отсортировать срез, сохраняя при этом исходный порядок одинаковых элементов, используйте вместо этого sort.SliceStable.
+
+
+family := []struct {
+    Name string
+    Age  int
+}{
+    {"Alice", 23},
+    {"David", 2},
+    {"Eve", 2},
+    {"Bob", 25},
+}
+
+// Сортировка по возрасту, 
+// сохраняя оригинальный порядок или равные элементы.
+sort.SliceStable(family, func(i, j int) bool {
+    return family[i].Age < family[j].Age
+})
+fmt.Println(family) // [{David 2} {Eve 2} {Alice 23} {Bob 25}]
+Сортировать пользовательские структуры данных
+Используйте универсальные функции sort.Sort и sort.Stable.
+
+Они сортируют любую коллекцию, которая реализует интерфейс sort.Interface.
+
+
+type Interface interface {
+    // Len - количество элементов в коллекции.
+    Len() int
+    // Less сообщает должен ли элемента с индексом i
+    // быть отсортированным перед элементом с индексом j.
+    Less(i, j int) bool
+    // Swap меняет местами элементы с индексами i и j.
+    Swap(i, j int)
+}
+
+Вот пример.
+
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+// ByAge реализует sort.Interface 
+// основанный на поле Age.
+type ByAge []Person
+
+func (a ByAge) Len() int           { return len(a) }
+func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+func (a ByAge) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+
+func main() {
+    family := []Person{
+        {"Alice", 23},
+        {"Eve", 2},
+        {"Bob", 25},
+    }
+    sort.Sort(ByAge(family))
+    fmt.Println(family) // [{Eve 2} {Alice 23} {Bob 25}]
+}
+Дополнение: сортировка карты по ключу или значению
+Карта (map) - это неупорядоченная коллекция пар ключ-значение. Если вам нужен стабильный порядок итераций, вы должны поддерживать отдельную структуру данных.
+
+В этом примере кода используется срез ключей для сортировки карты в порядке расположения ключей.
+
+
+m := map[string]int{"Alice": 2, "Cecil": 1, "Bob": 3}
+
+keys := make([]string, 0, len(m))
+for k := range m {
+    keys = append(keys, k)
+}
+sort.Strings(keys)
+
+for _, k := range keys {
+    fmt.Println(k, m[k])
+}
+// Вывод:
+// Alice 2
+// Bob 3
+// Cecil 1
+Также, начиная с Go 1.12, пакет fmt печатает карты в порядке сортировки ключей, чтобы упростить тестирование.
+
+Производительность и реализация
+Все алгоритмы в пакете sort в Go выполняют O(n log n) сравнений в худшем случае, где n - количество элементов, которые должны быть отсортированы.
+
+Большинство функций реализовано с использованием оптимизированной версии быстрой сортировки.

@@ -1,0 +1,59 @@
+Как определить тип объекта в Golang
+Используйте fmt для описания типа строки
+
+Вы можете использовать флаг %T в пакете fmt, чтобы получить представление типа согласно синтаксису Go.
+
+
+var x interface{} = []int{1, 2, 3}
+xType := fmt.Sprintf("%T", x)
+fmt.Println(xType) // "[]int"
+(Пустой интерфейс, обозначенный interface{}, может содержать значения любого типа.)
+
+Переключатель типов позволяет выбирать между типами
+Используйте переключатель типа, чтобы сделать несколько утверждений типа последовательно.
+
+
+var x interface{} = 2.3
+switch v := x.(type) {
+case int:
+    fmt.Println("int:", v)
+case float64:
+    fmt.Println("float64:", v)
+default:
+    fmt.Println("unknown")
+}
+// Вывод: float64: 2.3
+Отражение (reflection) дает полную информацию о типе
+Используйте пакет reflect, если указанных выше вариантов недостаточно.
+
+
+var x interface{} = []int{1, 2, 3}
+xType := reflect.TypeOf(x)
+xValue := reflect.ValueOf(x)
+fmt.Println(xType, xValue) // "[]int [1 2 3]"
+
+
+
+
+для проверки типа переменных можно использовать "reflect" следующим образом:
+
+package main
+
+import (
+	"fmt"
+	"os"
+	"reflect"
+)
+
+func main() {
+	var value interface{} = 16.0
+	typeOfValue1 := fmt.Sprint(reflect.TypeOf(value1)) 
+
+	switch {
+	case typeOfValue1 != "float64":
+		fmt.Printf("value=false: %s", typeOfValue1)
+		os.Exit(0)
+	}
+
+
+

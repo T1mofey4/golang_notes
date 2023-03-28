@@ -1,0 +1,1 @@
+fmt.Println(string(input[1]))

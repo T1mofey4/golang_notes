@@ -1,0 +1,30 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"log"
+	"os"
+)
+
+
+func check(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func main() {
+	f, err := os.Open("aardvark.txt")
+	check(err)
+	var lines []string
+	fileScanner := bufio.NewScanner(f)
+	for fileScanner.Scan() {
+		lines = append(lines, fileScanner.Text())
+	}
+	fmt.Println(lines[0])
+	fmt.Println(lines[1])
+	fmt.Println(lines[2])
+	defer f.Close()
+
+}

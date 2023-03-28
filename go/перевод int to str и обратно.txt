@@ -1,0 +1,47 @@
+============================================================================================
+integer to string
+
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+a := 123
+
+inputStr := strconv.Itoa(a)
+}
+
+fmt.Print(inputStr)		// out 123
+
+fmt.Print(inputStr[0])		// out in ASCII 49
+
+//чтобы вывести символ строки с индексом 0 или др. в UTF-8 нужно перед переменной добавить метод string()
+
+fmt.Print(string(inputStr[0])) // out in utf-8 == 1
+
+
+============================================================================================
+string to integer
+
+
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+	marksStr := "320"
+	marks, err := strconv.Atoi(marksStr) // если при объявлении переменной marks не добавить err и проверку if, то будет ошибка
+
+	if err != nil {
+		fmt.Println("Error during conversion")
+		return
+	}
+
+	fmt.Println(marks) // out 320
+}

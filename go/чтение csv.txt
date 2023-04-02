@@ -1,0 +1,41 @@
+// считать значение указав его коордтнаты (строка, колонка)
+
+func readCSV(path string, row int, column int) {
+	f, err := os.Open(path)
+	checkErr(err)
+	defer f.Close()
+	reader := csv.NewReader(f)
+
+	for i := 0; i <= row-1; i++ {
+		r, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		checkErr(err)
+		if i == row-1 {
+			fmt.Println(r[column-1])
+		}
+
+	}
+
+}
+
+// считать весь файл
+
+func readCSV(path string) {
+	f, err := os.Open(path)
+	checkErr(err)
+	defer f.Close()
+	reader := csv.NewReader(f)
+
+	for {
+		r, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		checkErr(err)
+		fmt.Println(r)
+
+	}
+
+}

@@ -1,3 +1,7 @@
-(for %i in (*.mp4) do @echo file '%i') > list.txt  -- команда для создания файла с названиями видео
+dir *.ts /b>filelist.txt /O:d -- создание списка всех файлов
+
+(for /f %i in (filelist.txt) do @echo file '%i') > list.txt  -- команда для создания файла с названиями видео
 
 ffmpeg.exe -f concat -i list.txt -c copy all.mp4 -- команда для склеивания
+
+ffmpeg.exe -f concat -i list.txt -map 0:1 -map 0:0 -c:v copy -c:a copy all.mp4

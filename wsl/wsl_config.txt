@@ -1,0 +1,8 @@
+В WSL теперь можно отключить добавление путей Windows, $PATHотредактировав /etc/wsl.confфайл. Возможно, вам придется перезапустить сеанс WSL, чтобы это изменение вступило в силу.
+
+Пример его содержания:
+
+[interop]
+appendWindowsPath=false
+
+Более подробную информацию можно найти https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configure-per-distro-launch-settings-with-wslconf

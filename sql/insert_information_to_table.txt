@@ -1,0 +1,4 @@
+Вставка записи в таблицу:
+
+INSERT INTO genre (name_genre)
+VALUES ('Роман');
